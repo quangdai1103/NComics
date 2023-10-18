@@ -111,12 +111,12 @@ const handleChangePage = (page: number) => {
   background-color: #d8d8d8;
 }
 .active-page {
-  background-color: #10b981;
-  border: 1px solid #10b981;
+  background-color: #24b6fd;
+  border: 1px solid #24b6fd;
   color: white;
 }
 .active-page:hover {
-  background-color: #059669;
+  background-color: #24b6fd;
 }
 </style>
 
