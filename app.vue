@@ -25,7 +25,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #10b981;
+  background-color: #24b6fd;
 }
 
 .swiper-button-prev::after,
