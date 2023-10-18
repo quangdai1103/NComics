@@ -67,11 +67,11 @@ onBeforeUnmount(() => {
         <NuxtLink to="/" class="flex items-center gap-2 h-full select-none">
           <img
             src="../assets/img/logo.svg"
-            alt="NextZ Comics"
+            alt="NComics"
             class="h-full py-2"
             draggable="false"
           />
-          <h1 class="text-2xl font-bold text-emerald-500 chocopy">NextZ Comics</h1>
+          <h1 class="text-2xl font-bold text-emerald-500 chocopy">NComics</h1>
         </NuxtLink>
         <ul class="items-center gap-2 text-lg ml-6 text-base hidden lg:flex">
           <li v-for="route in routes" :key="route.path">
