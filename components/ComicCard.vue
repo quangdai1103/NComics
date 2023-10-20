@@ -9,12 +9,13 @@ const props = defineProps<{
 }>();
 const { comic, detail, isHistory = false } = props;
 const {
-  genres,
+  authors,
   followers,
   id,
   status,
   thumbnail,
   title,
+  total_comments,
   total_views,
   is_trending,
   updated_at,
@@ -42,7 +43,7 @@ const handleClickCard = (e: Event, type: 'detail' | 'delete' | 'continue') => {
 
 <template>
   <div
-    class="overflow-hidden rounded-md duration-500 border-2 border-transparent md:hover:border-emerald-300 relative group md:group-hover:shadow-md cursor-pointer"
+    class="overflow-hidden rounded-md duration-500 border-2 border-transparent hover:border-cyan-300 relative group group-hover:shadow-md cursor-pointer"
     @click="(e) => handleClickCard(e, 'detail')"
   >
     <div
@@ -79,8 +80,8 @@ const handleClickCard = (e: Event, type: 'detail' | 'delete' | 'continue') => {
         <Icon name="line-md:loading-loop" size="48" />
       </div>
       <img
-        :src="thumbnail"
-        :alt="title"
+      :src="`/api/serve?src=${`https://cdnnvd.com/nettruyen/thumb/${thumbnail.split('/').at(-1)}`}`"
+      :alt="title"
         class="w-full aspect-[2/3] object-cover object-center scale-[1.01] group-hover:scale-105 duration-300 origin-bottom select-none"
         loading="lazy"
         @load="isImageLoaded = true"
@@ -90,7 +91,7 @@ const handleClickCard = (e: Event, type: 'detail' | 'delete' | 'continue') => {
       class="absolute top-1/2 bottom-0 inset-x-0 flex flex-col justify-end px-2 sm:px-4 py-2 bg-gradient-to-b from-transparent to-black"
     >
       <h5
-        class="font-bold leading-5 text-lg text-white group-hover:text-emerald-400 text-shadow duration-200 line-clamp-2"
+        class="font-bold leading-5 text-lg text-white group-hover:text-cyan-400 text-shadow duration-200 line-clamp-2"
       >
         <abbr :title="title" class="no-underline">{{ title }}</abbr>
       </h5>
@@ -98,17 +99,30 @@ const handleClickCard = (e: Event, type: 'detail' | 'delete' | 'continue') => {
         <hr class="mt-3 mb-0.5 border-gray-500" />
         <div>
           <p class="text-sm text-gray-300 truncate font-semibold">
-            {{ genres.map((g) => g.name).join(' | ') }}
+            <template v-if="Array.isArray(authors)">
+              {{ authors.join(' | ') }}
+            </template>
+            <template v-else-if="authors === 'Updating'">
+              <span class="flex items-center gap-1">
+                <Icon
+                  name="mdi:dots-circle"
+                  size="16"
+                  class="text-cyan-400"
+                />
+                Updating
+              </span>
+            </template>
+            <template v-else>{{ authors }} </template>
           </p>
           <div
-            class="flex items-center gap-0.5 justify-center gap-x-2 gap-y-1 text-emerald-400 text-xs py-1 mt-0.5"
+            class="hidden md:flex items-center gap-0.5 justify-center gap-x-2 gap-y-1 text-cyan-400 text-xs py-1 mt-0.5"
             v-if="!isHistory"
           >
             <span class="flex items-center gap-1 bg-white/25 px-1 rounded">
               <Icon name="carbon:view-filled" />
               {{
                 Intl.NumberFormat('en', { notation: 'compact' }).format(
-                  total_views
+                  +total_views
                 )
               }}
             </span>
@@ -116,7 +130,7 @@ const handleClickCard = (e: Event, type: 'detail' | 'delete' | 'continue') => {
               <Icon name="ant-design:heart-outlined" />
               {{
                 Intl.NumberFormat('en', { notation: 'compact' }).format(
-                  followers
+                  +followers
                 )
               }}
             </span>
@@ -128,7 +142,7 @@ const handleClickCard = (e: Event, type: 'detail' | 'delete' | 'continue') => {
               <Icon name="ph:read-cv-logo-fill" size="18" />
               {{ last_reading }}
             </p>
-            <div class="flex items-center gap-1 text-sm text-white">
+            <div class="flex items-center gap-1 text-sm">
               <button
                 class="bg-sky-500 w-full px-2 py-1 rounded-sm flex justify-center items-center gap-1"
                 @click="(e) => handleClickCard(e, 'continue')"
@@ -153,6 +167,6 @@ const handleClickCard = (e: Event, type: 'detail' | 'delete' | 'continue') => {
 
 <style scoped>
 .group:hover .text-shadow {
-  text-shadow: 0 0 6px #10b981;
+  text-shadow: 0 0 6px #22d3ee;
 }
 </style>

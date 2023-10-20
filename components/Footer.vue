@@ -5,7 +5,7 @@
         <NuxtLink
           target="_blank"
           rel="noopener noreferrer"
-          to="https://www.facebook.com/pth.1641"
+          to="https://www.facebook.com/quangdai1103z"
           class="text-gray-400 hover:text-gray-500"
         >
           <span class="sr-only">Facebook</span>
@@ -14,20 +14,38 @@
         <NuxtLink
           target="_blank"
           rel="noopener noreferrer"
-          to="https://github.com/pth-1641"
+          to="https://quangdai.id.vn"
           class="text-gray-400 hover:text-gray-500"
         >
-          <span class="sr-only">GitHub</span>
-          <Icon name="uil:github" size="28" />
+          <span class="sr-only">Website quản lý</span>
+          <Icon :name="'tabler:world-check'" size="28" />
         </NuxtLink>
         <NuxtLink
           target="_blank"
           rel="noopener noreferrer"
-          to="https://github.com/pth-1641/Comics-API"
+          to="https://nextzintereac.com"
           class="text-gray-400 hover:text-gray-500"
         >
-          <span class="sr-only">API</span>
-          <Icon name="mdi:api" size="28" />
+          <span class="sr-only">Tăng tương tác - Seeding</span>
+          <Icon name="solar:chat-round-like-bold" size="28" />
+        </NuxtLink>
+        <NuxtLink
+          target="_blank"
+          rel="noopener noreferrer"
+          to="https://nextzcinema.com"
+          class="text-gray-400 hover:text-gray-500"
+        >
+          <span class="sr-only">Xem phim miễn phí</span>
+          <Icon name="maki:cinema-11" size="28" />
+        </NuxtLink>
+        <NuxtLink
+          target="_blank"
+          rel="noopener noreferrer"
+          to="https://nextzantiscam.com"
+          class="text-gray-400 hover:text-gray-500"
+        >
+          <span class="sr-only">Anti Scamer</span>
+          <Icon name="mdi:account-check" size="28" />
         </NuxtLink>
       </div>
       <p class="mt-8 text-base leading-6 text-center text-gray-400">

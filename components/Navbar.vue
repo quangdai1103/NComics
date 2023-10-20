@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { routes, dynamicRoutes } from '@/utils/data';
 
-const device = ref<'mobile' | 'laptop'>('mobile');
+const device = ref<'mobile' | 'laptop'>('laptop');
 
 const searchValue = ref<string>('');
 const suggestComics = ref<any>([]);
@@ -44,7 +44,7 @@ watch(searchValue, (newValue) => {
 });
 
 const getScreenWidth = () => {
-  const width = window.innerWidth;
+  const { width } = window.screen;
   device.value = width >= 1024 ? 'laptop' : 'mobile';
 };
 
@@ -67,18 +67,18 @@ onBeforeUnmount(() => {
         <NuxtLink to="/" class="flex items-center gap-2 h-full select-none">
           <img
             src="../assets/img/logo.svg"
-            alt="NComics"
+            alt="NextZ Comics"
             class="h-full py-2"
             draggable="false"
           />
-          <h1 class="text-2xl font-bold text-emerald-500 chocopy">NComics</h1>
+          <h1 class="text-2xl font-bold text-cyan-400 chocopy">NextZ Comics</h1>
         </NuxtLink>
         <ul class="items-center gap-2 text-lg ml-6 text-base hidden lg:flex">
           <li v-for="route in routes" :key="route.path">
             <NuxtLink
               :to="route.path"
-              class="px-4 py-2 duration-150 font-bold hover:text-emerald-500"
-              active-class="bg-emerald-500 rounded-full text-white hover:text-white"
+              class="px-4 py-2 duration-150 font-bold hover:text-cyan-400"
+              active-class="bg-cyan-400 rounded-full text-white hover:text-white"
             >
               {{ route.name }}
             </NuxtLink>
@@ -90,7 +90,7 @@ onBeforeUnmount(() => {
           <Icon name="ic:outline-history" size="30" class="text-blue-500" />
         </NuxtLink>
         <form
-          class="flex items-center rounded-full border py-2 focus-within:border-emerald-500 duration-100 mx-4 relative"
+          class="flex items-center rounded-full border py-2 focus-within:border-cyan-400 duration-100 mx-4 relative"
           @submit.prevent="handleSearchComics"
         >
           <input
@@ -116,9 +116,9 @@ onBeforeUnmount(() => {
               class="flex gap-2 p-2 border-b hover:bg-gray-200 duration-100 cursor-pointer"
             >
               <img
-                :src="comic.thumbnail"
+              :src="`/api/serve?src=${`https://cdnnvd.com/nettruyen/thumb/${comic.thumbnail.split('/').at(-1)}`}`"
                 :alt="comic.title"
-                class="border border-emerald-500 w-16 h-24 object-cover object-center rounded"
+                class="border border-cyan-400 w-16 h-24 object-cover object-center rounded"
               />
               <div>
                 <h6 class="font-bold text-sm">
@@ -128,7 +128,7 @@ onBeforeUnmount(() => {
                   </span>
                 </h6>
                 <p
-                  class="text-sm font-bold text-emerald-500 flex items-center gap-1"
+                  class="text-sm font-bold text-cyan-400 flex items-center gap-1"
                 >
                   <template v-if="comic.authors === 'Updating'">
                     <Icon name="mdi:dots-circle" size="16" />
@@ -177,7 +177,7 @@ onBeforeUnmount(() => {
               <Icon name="ep:close-bold" size="28" />
             </button>
             <form
-              class="flex items-center rounded-full border py-2 focus-within:border-emerald-500 duration-100 relative mb-3"
+              class="flex items-center rounded-full border py-2 focus-within:border-cyan-400 duration-100 relative mb-3"
               @submit.prevent="handleSearchComics"
             >
               <input
@@ -205,7 +205,7 @@ onBeforeUnmount(() => {
                   <img
                     :src="comic.thumbnail"
                     :alt="comic.title"
-                    class="border border-emerald-500 w-16 h-24 object-cover object-center rounded"
+                    class="border border-cyan-400 w-16 h-24 object-cover object-center rounded"
                   />
                   <div>
                     <h6 class="font-bold text-sm">
@@ -215,7 +215,7 @@ onBeforeUnmount(() => {
                       </span>
                     </h6>
                     <p
-                      class="text-sm font-bold text-emerald-500 flex items-center gap-1"
+                      class="text-sm font-bold text-cyan-400 flex items-center gap-1"
                     >
                       <template v-if="comic.authors === 'Updating'">
                         <Icon name="mdi:dots-circle" size="16" />
@@ -237,7 +237,7 @@ onBeforeUnmount(() => {
             <ul class="grid gap-3 text-lg font-semibold">
               <NuxtLink
                 to="/"
-                active-class="text-emerald-500"
+                active-class="text-cyan-400"
                 @click="openSidebar = false"
               >
                 <Icon name="ion:home-outline" size="20" class="mr-1" />
@@ -245,7 +245,7 @@ onBeforeUnmount(() => {
               </NuxtLink>
               <NuxtLink
                 to="/genres?type=all"
-                active-class="text-emerald-500"
+                active-class="text-cyan-400"
                 @click="openSidebar = false"
               >
                 <Icon name="fa-solid:crown" size="20" class="mr-1" />
@@ -253,7 +253,7 @@ onBeforeUnmount(() => {
               </NuxtLink>
               <NuxtLink
                 to="/top"
-                active-class="text-emerald-500"
+                active-class="text-cyan-400"
                 @click="openSidebar = false"
               >
                 <Icon name="twemoji:top-arrow" size="20" class="mr-1" />
@@ -263,7 +263,7 @@ onBeforeUnmount(() => {
                 v-for="route in dynamicRoutes"
                 :key="route.path"
                 :to="route.path"
-                active-class="text-emerald-500"
+                active-class="text-cyan-400"
                 @click="openSidebar = false"
               >
                 <Icon :name="route.icon" size="20" class="mr-1" />
@@ -271,7 +271,7 @@ onBeforeUnmount(() => {
               </NuxtLink>
               <NuxtLink
                 to="/history"
-                active-class="text-emerald-500"
+                active-class="text-cyan-400"
                 @click="openSidebar = false"
               >
                 <Icon name="mdi:clock-outline" size="20" class="mr-1" />

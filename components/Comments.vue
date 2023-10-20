@@ -45,7 +45,7 @@ reactive({
           <Icon
             name="bi:reply-all"
             v-if="comment.replies.length"
-            class="rotate-180 text-emerald-500 w-0 max-w-[28px] sm:w-full"
+            class="rotate-180 text-cyan-400 w-0 max-w-[28px] sm:w-full"
             size="28"
           />
           <div class="grid gap-4">
@@ -60,7 +60,7 @@ reactive({
                 <div>
                   <h5 class="font-bold">{{ reply.username }}</h5>
                   <p class="break-word">
-                    <span class="text-emerald-500 font-bold">
+                    <span class="text-cyan-400 font-bold">
                       {{ reply.mention_user }}
                     </span>
                     {{ reply.content }}

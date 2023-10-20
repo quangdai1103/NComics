@@ -33,7 +33,7 @@ watch(route, (route) => {
   currentPage.value = Number(page);
 });
 
-const handleChangePage = (page: number) => {
+const handleChangePage = async (page: number) => {
   currentPage.value = page;
   router.replace({ query: { ...route.query, page } });
 };
@@ -44,7 +44,7 @@ const handleChangePage = (page: number) => {
     class="flex items-center gap-2 text-xl title md:text-3xl font-bold mb-4 mt-12"
     v-if="title"
   >
-    <Icon :name="icon" size="36" class="text-emerald-500" />
+    <Icon :name="icon" size="36" class="text-cyan-400" />
     {{ title }} - Page {{ currentPage }}
   </h2>
   <div
@@ -111,12 +111,12 @@ const handleChangePage = (page: number) => {
   background-color: #d8d8d8;
 }
 .active-page {
-  background-color: #24b6fd;
-  border: 1px solid #24b6fd;
+  background-color: #22d3ee;
+  border: 1px solid #22d3ee;
   color: white;
 }
 .active-page:hover {
-  background-color: #24b6fd;
+  background-color: #059669;
 }
 </style>
 

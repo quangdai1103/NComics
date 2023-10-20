@@ -15,12 +15,12 @@ const { comics, title, icon, link } = props;
     <h2
       class="flex items-center gap-2 text-xl sm:text-2xl md:text-3xl font-bold"
     >
-      <Icon :name="icon" size="36" class="text-emerald-500" />
+      <Icon :name="icon" size="36" class="text-cyan-400" />
       {{ title }}
     </h2>
     <NuxtLink
       :to="link"
-      class="cursor-pointer rounded-full px-3 py-0.5 overflow-hidden bg-transparent hover:border-transparent border-2 border-emerald-500 group hover:bg-emerald-500 text-emerald-500 hover:text-white hover:ring-2 hover:ring-offset-2 hover:ring-emerald-400 duration-300"
+      class="cursor-pointer rounded-full px-3 py-0.5 overflow-hidden bg-transparent hover:border-transparent border-2 border-cyan-400 group hover:bg-cyan-400 text-cyan-400 hover:text-white hover:ring-2 hover:ring-offset-2 hover:ring-cyan-400 duration-300"
     >
       <span class="text-sm font-medium"> More </span>
     </NuxtLink>
@@ -78,3 +78,9 @@ const { comics, title, icon, link } = props;
     </SwiperSlide>
   </Swiper>
 </template>
+
+<!-- 
+  :src="`/api/serve?src=${`https://cdnnvd.com/nettruyen/thumb/${comic.thumbnail.split('/').at(-1)}`}`"
+
+
+ -->
