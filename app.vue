@@ -14,6 +14,7 @@ onBeforeMount(() => initLocalDb());
 
 <style>
 html {
+  scroll-behavior: smooth;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -25,7 +26,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #24b6fd;
+  background-color: #22d3ee;
 }
 
 .swiper-button-prev::after,
