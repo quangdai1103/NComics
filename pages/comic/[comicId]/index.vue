@@ -169,7 +169,7 @@ useServerSeoMeta(
       >
         <img
           class="w-full h-full object-cover"
-          :src="`/api/serve?src=${`https://cdnnvd.com/nettruyen/thumb/${comic.thumbnail.split('/').at(-1)}`}`"
+          :src="`https://proxy-snowy-theta.vercel.app/serve?src=${`https://cdnnvd.com/nettruyen/thumb/${comic.thumbnail.split('/').at(-1)}`}`"
           :alt="comic.title"
           draggable="false"
         />

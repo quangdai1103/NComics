@@ -164,7 +164,7 @@ useServerSeoMeta(
         v-else
         v-for="image in images"
         :key="image.src"
-        :src="`/api/serve?src=${image.src.split('src=').at(1)}`"
+        :src="`https://proxy-snowy-theta.vercel.app/serve?src=${image.src.split('src=').at(1)}`"
         :alt="`Page ${image.page}`"
         loading="lazy"
         :id="image.page"

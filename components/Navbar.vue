@@ -116,7 +116,7 @@ onBeforeUnmount(() => {
               class="flex gap-2 p-2 border-b hover:bg-gray-200 duration-100 cursor-pointer"
             >
               <img
-              :src="`/api/serve?src=${`https://cdnnvd.com/nettruyen/thumb/${comic.thumbnail.split('/').at(-1)}`}`"
+              :src="`https://proxy-snowy-theta.vercel.app/serve?src=${`https://cdnnvd.com/nettruyen/thumb/${comic.thumbnail.split('/').at(-1)}`}`"
                 :alt="comic.title"
                 class="border border-cyan-400 w-16 h-24 object-cover object-center rounded"
               />

@@ -78,9 +78,3 @@ const { comics, title, icon, link } = props;
     </SwiperSlide>
   </Swiper>
 </template>
-
-<!-- 
-  :src="`/api/serve?src=${`https://cdnnvd.com/nettruyen/thumb/${comic.thumbnail.split('/').at(-1)}`}`"
-
-
- -->

@@ -80,7 +80,7 @@ const handleClickCard = (e: Event, type: 'detail' | 'delete' | 'continue') => {
         <Icon name="line-md:loading-loop" size="48" />
       </div>
       <img
-      :src="`/api/serve?src=${`https://cdnnvd.com/nettruyen/thumb/${thumbnail.split('/').at(-1)}`}`"
+      :src="`https://proxy-snowy-theta.vercel.app/serve?src=${`https://cdnnvd.com/nettruyen/thumb/${thumbnail.split('/').at(-1)}`}`"
       :alt="title"
         class="w-full aspect-[2/3] object-cover object-center scale-[1.01] group-hover:scale-105 duration-300 origin-bottom select-none"
         loading="lazy"
