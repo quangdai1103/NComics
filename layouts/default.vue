@@ -42,11 +42,11 @@ watch(route, (route) => {
     >
       <defs>
         <linearGradient id="pl-grad1" x1="1" y1="0.5" x2="0" y2="0.5">
-          <stop offset="0%" stop-color="#24b6fd" />
+          <stop offset="0%" stop-color="#22c55e" />
           <stop offset="100%" stop-color="#3b82f6" />
         </linearGradient>
         <linearGradient id="pl-grad2" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#24b6fd" />
+          <stop offset="0%" stop-color="#22c55e" />
           <stop offset="100%" stop-color="#3b82f6" />
         </linearGradient>
       </defs>
