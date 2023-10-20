@@ -81,7 +81,7 @@ watch([currentTab, route], async ([newTab, route]) => {
       `${
         topRoutes.find((route) => route.type === currentTab)?.name +
           ` - Page ${route.query.page ?? 1}` || 'Genres'
-      } | NComics`
+      } | NextZ Comics`
     }}</Title>
     <Meta name="description" content="Free comic and manga reader online" />
   </Head>

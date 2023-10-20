@@ -65,7 +65,7 @@ watch(route, async (route) => {
       `${
         genres.find((genre: any) => genre.id === currentGenre)?.name +
           ` - Page ${route.query.page ?? 1}` || 'Genres'
-      } | NComics`
+      } | NextZ Comics`
     }}</Title>
     <Meta
       name="description"

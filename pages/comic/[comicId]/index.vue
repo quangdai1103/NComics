@@ -144,13 +144,13 @@ watch(showDownloadModal, (status) => {
 
 useSeoMeta(
   meta({
-    title: comic.title + ' | NComics',
+    title: comic.title + ' | NextZ Comics',
     description: comic.description,
   })
 );
 useServerSeoMeta(
   meta({
-    title: comic.title + ' | NComics',
+    title: comic.title + ' | NextZ Comics',
     description: comic.description,
   })
 );
@@ -261,7 +261,7 @@ useServerSeoMeta(
             :class="showFullDescription ? 'line-clamp-none' : 'line-clamp-5'"
             ref="description"
           >
-            {{ comic.description.replace(/NetTruyen/g, 'NComics') }}
+            {{ comic.description.replace(/NetTruyen/g, 'NextZ Comics') }}
           </p>
           <button
             v-if="isTooLongDescription"

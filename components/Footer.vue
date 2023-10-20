@@ -49,7 +49,7 @@
         </NuxtLink>
       </div>
       <p class="mt-8 text-base leading-6 text-center text-gray-400">
-        © {{ new Date().getFullYear() }} NComics™. All rights reserved.
+        © {{ new Date().getFullYear() }} NextZ Comics™. All rights reserved.
       </p>
     </div>
   </footer>

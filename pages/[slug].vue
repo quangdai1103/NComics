@@ -42,8 +42,8 @@ watch(route, async (route) => {
     <Title>{{
       `${
         routeData
-          ? `${routeData.title} - Page ${route.query.page ?? 1} | NComics`
-          : 'NComics'
+          ? `${routeData.title} - Page ${route.query.page ?? 1} | NextZ Comics`
+          : 'NextZ Comics'
       }`
     }}</Title>
     <Meta name="description" content="Free comic and manga reader online" />

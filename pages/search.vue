@@ -31,7 +31,7 @@ watch(route, async (route) => {
 
 <template>
   <Head>
-    <Title>{{ `${query ? `${query} | NComics` : 'NComics'}` }}</Title>
+    <Title>{{ `${query ? `${query} | NextZ Comics` : 'NextZ Comics'}` }}</Title>
     <Meta name="description" content="Free comic and manga reader online" />
   </Head>
   <main class="max-w-6xl mx-auto min-h-screen py-6 px-3">

@@ -38,7 +38,7 @@ watch(route, (route) => {
 
 <template>
   <Head>
-    <Title>{{ `History - Page ${route.query.page ?? 1} | NComics` }}</Title>
+    <Title>{{ `History - Page ${route.query.page ?? 1} | NextZ Comics` }}</Title>
     <Meta name="description" content="Free comic and manga reader online" />
   </Head>
   <main class="max-w-6xl mx-auto px-3 min-h-screen">

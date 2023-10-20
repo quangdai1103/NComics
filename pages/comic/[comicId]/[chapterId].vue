@@ -140,12 +140,12 @@ watch(openComments, (status) => {
 
 useSeoMeta(
   meta({
-    title: `${comic_name} - ${chapter_name} | NComics`,
+    title: `${comic_name} - ${chapter_name} | NextZ Comics`,
   })
 );
 useServerSeoMeta(
   meta({
-    title: `${comic_name} - ${chapter_name} | NComics`,
+    title: `${comic_name} - ${chapter_name} | NextZ Comics`,
   })
 );
 </script>

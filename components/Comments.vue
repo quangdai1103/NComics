@@ -28,7 +28,7 @@ reactive({
             v-for="sticker in comment.stickers"
             :src="sticker"
             class="max-w-[150px] object-cover rounded h-max"
-            alt="NComics"
+            alt="NextZ Comics"
             draggable="false"
           />
         </div>
@@ -70,7 +70,7 @@ reactive({
                       v-for="sticker in reply.stickers"
                       :src="sticker"
                       class="max-w-[150px] object-cover rounded h-max"
-                      alt="NComics"
+                      alt="NextZ Comics"
                       draggable="false"
                     />
                   </div>
