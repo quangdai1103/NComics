@@ -1,19 +1,23 @@
 <script lang="ts" setup>
-import { ComicDetail } from '@/types';
+import { ComicComments, ComicDetail, Comment } from '@/types';
 import { meta } from '@/utils/data';
 
 type Chapter = {
   name: string;
   id: number;
 };
+type Tab = 'chapters' | 'comments';
 
 const route = useRoute();
 const comicId = route.params.comicId as string;
 const CHAPTER_PER_PAGE = 50;
 
 const chaptersSection = ref<Chapter[]>([]);
+const currentTab = ref<Tab>('chapters');
+const comments = ref<Comment[]>([]);
 const description = ref<any>(null);
 
+const commentPage = ref<number>(1);
 const currentChapterPage = ref<number>(0);
 const isEnd = ref<boolean>(false);
 
@@ -27,16 +31,28 @@ const chaptersDownloadSection = ref<Chapter[]>([]);
 const showDownloadModal = ref<boolean>(false);
 const downloadChapters = ref<number[]>([]);
 
-const comic: ComicDetail = await useFetchData(`/comics/${comicId}`);
+const data = (async () => {
+  const [comic, commentsData]: [ComicDetail, ComicComments] = await Promise.all(
+    [
+      useFetchData(`/comics/${comicId}`),
+      useFetchData(`/comics/${comicId}/comments`),
+    ]
+  );
+  isEnd.value = commentsData?.total_pages === commentsData?.current_page;
+  comments.value = commentsData?.comments;
+  return {
+    comic,
+    commentsData,
+  };
+})();
 
-if (!comic) {
+if (!(await data).comic) {
   throw createError({ statusCode: 404, statusMessage: 'Page Not Found' });
 }
 
+const { comic } = await data;
 const newestChapter = comic.chapters[0]?.name.match(/\d+(\.\d+)?/)?.[0];
-const totalChapterPage = !isNaN(Number(newestChapter))
-  ? Math.ceil(Number(newestChapter) / CHAPTER_PER_PAGE)
-  : 0;
+const totalChapterPage = Math.ceil(Number(newestChapter) / CHAPTER_PER_PAGE);
 
 const getChapter = (start: number, end: number) => {
   const limit = CHAPTER_PER_PAGE * 6;
@@ -72,6 +88,22 @@ const onChangeChapterDownloadGroup = (idx: number) => {
   );
 };
 
+const getComments = async () => {
+  try {
+    isFetching.value = true;
+    commentPage.value += 1;
+    const data = await useFetchData(
+      `/comics/${comicId}/comments?page=${commentPage.value}`
+    );
+    comments.value = [...comments.value, ...data.comments];
+    if (commentPage.value >= data.total_pages) isEnd.value = true;
+  } catch (err) {
+    console.log(err);
+  } finally {
+    isFetching.value = false;
+  }
+};
+
 const onAddDownloadChapter = (chapterId: number) => {
   if (downloadChapters.value.includes(chapterId)) {
     const chapterIdx = downloadChapters.value.indexOf(chapterId);
@@ -84,7 +116,7 @@ const onAddDownloadChapter = (chapterId: number) => {
 const handleDownloadChapters = async () => {
   try {
     for (const chapterId of downloadChapters.value) {
-      const href = `/download?comicId=${comicId}&chapterId=${chapterId}`;
+      const href = `/api/download?comicId=${comicId}&chapterId=${chapterId}`;
       const a = document.createElement('a');
       a.href = href;
       a.target = '_blank';
@@ -125,19 +157,19 @@ useServerSeoMeta(
 </script>
 
 <template>
-  <div class="relative pt-12 px-4 min-h-screen">
+  <div class="relative pt-12 px-4">
     <div
-      class="absolute top-0 inset-x-0 h-80 bg-gradient-to-b from-emerald-100 -z-10"
+      class="absolute top-0 inset-x-0 h-80 bg-gradient-to-b from-cyan-100 -z-10"
     />
     <div
       class="max-w-5xl mx-auto border-4 border-transparent p-0 rounded-xl sm:grid sm:grid-cols-4 gap-6 md:p-4 md:border-white"
     >
       <div
-        class="aspect-[2/3] w-56 mx-auto sm:w-full rounded-lg border-2 overflow-hidden border-emerald-500 relative sm:col-span-1"
+        class="aspect-[2/3] w-56 mx-auto sm:w-full rounded-lg border-2 overflow-hidden border-cyan-400 relative sm:col-span-1"
       >
         <img
           class="w-full h-full object-cover"
-          :src="comic.thumbnail"
+          :src="`/api/serve?src=${`https://cdnnvd.com/nettruyen/thumb/${comic.thumbnail.split('/').at(-1)}`}`"
           :alt="comic.title"
           draggable="false"
         />
@@ -150,10 +182,16 @@ useServerSeoMeta(
           >
             End
           </span>
+          <span
+            v-if="comic.is_adult"
+            class="bg-rose-500 py-0.5 px-2 rounded-b-sm first:rounded-bl-none"
+          >
+            18+
+          </span>
         </div>
       </div>
       <div class="sm:col-span-3">
-        <h4 class="text-3xl font-extrabold mt-5 sm:mt-0">{{ comic.title }}</h4>
+        <h4 class="text-3xl font-extrabold mt-5">{{ comic.title }}</h4>
         <p class="mb-3 mt-1 text-sm font-semibold text-gray-700">
           {{ comic.other_names.join(' | ') }}
         </p>
@@ -161,7 +199,7 @@ useServerSeoMeta(
           <NuxtLink
             v-for="genre in comic.genres"
             :to="`/genres?type=${genre.id}`"
-            class="px-2 py-0.5 rounded bg-transparent border-2 border-emerald-300 duration-100 hover:bg-emerald-300"
+            class="px-2 py-0.5 rounded bg-transparent border-2 border-cyan-300 duration-100 hover:bg-cyan-300"
           >
             {{ genre.name }}
           </NuxtLink>
@@ -183,14 +221,17 @@ useServerSeoMeta(
           </template>
           <template v-else-if="comic.authors === 'Updating'">
             <span class="flex items-center gap-1">
-              <Icon name="mdi:dots-circle" size="16" class="text-emerald-500" />
+              <Icon name="mdi:dots-circle" size="16" class="text-cyan-400" />
               Updating
             </span>
           </template>
           <template v-else>
-            <h5 class="text-fuchsia-500">
+            <NuxtLink
+              :to="`/search?q=${comic.authors.replace(/\s+/g, '+')}`"
+              class="text-fuchsia-500"
+            >
               {{ comic.authors }}
-            </h5>
+            </NuxtLink>
           </template>
         </div>
         <div
@@ -233,31 +274,16 @@ useServerSeoMeta(
         <div
           class="flex flex-col sm:flex-row items-center gap-3 mt-5 font-bold"
         >
-          <button
-            @click="
-              () => {
-                if (!comic.chapters.length) return;
-                navigateTo(`/comic/${comic.id}/${comic.chapters.at(-1)?.id}`);
-              }
-            "
-            :class="`flex items-center gap-1 border-2 rounded text-white text-lg px-6 py-2 ${
-              comic.chapters.length
-                ? 'border-emerald-500 bg-emerald-500'
-                : 'border-gray-500 bg-gray-500'
-            }`"
-            :disable="!comic.chapters.length"
+          <NuxtLink
+            :to="`/comic/${comic.id}/${comic.chapters.at(-1)?.id}`"
+            class="flex items-center gap-1 border-2 border-cyan-400 rounded bg-cyan-400 text-white text-lg px-6 py-2"
           >
             <Icon name="carbon:book" size="24" />
             Read Now
-          </button>
+          </NuxtLink>
           <button
-            :class="`flex items-center gap-1 rounded border-2 text-lg px-6 py-2 ${
-              comic.chapters.length
-                ? 'border-emerald-500 text-emerald-500'
-                : 'border-gray-500 text-gray-500'
-            }`"
+            class="flex items-center gap-1 rounded border-2 border-cyan-400 text-cyan-400 text-lg px-6 py-2"
             @click="showDownloadModal = true"
-            :disable="!comic.chapters.length"
           >
             <Icon name="octicon:download-16" size="24" />
             Download
@@ -267,57 +293,81 @@ useServerSeoMeta(
     </div>
     <div class="max-w-5xl mx-auto mt-5">
       <div
-        class="flex items-center gap-1 text-emerald-500 font-bold text-lg sm:text-xl border-b-2 py-1"
-      >
-        <Icon name="bytesize:book" size="20" />
-        Chapters
-      </div>
-      <h4
-        class="mt-6 text-center text-2xl font-bold text-gray-700 select-none"
-        v-if="!comic.chapters.length"
-      >
-        No Chapter
-      </h4>
-      <div
-        v-else
-        class="flex items-center gap-3 my-5 text-gray-800 font-semibold text-sm flex-wrap"
+        class="flex items-center gap-6 font-bold text-lg sm:text-xl border-b-2 py-1"
       >
         <button
-          v-for="(_, idx) in new Array(totalChapterPage)"
-          :class="`px-2 py-0.5 rounded-full ${
-            idx === currentChapterPage
-              ? 'bg-emerald-100 text-emerald-500'
-              : 'bg-gray-100'
+          :class="`flex items-center gap-1 ${
+            currentTab === 'chapters' ? 'text-cyan-400' : ''
           }`"
-          @click="onChangeChapterGroup(idx)"
+          @click="currentTab = 'chapters'"
         >
-          <template v-if="idx + 1 < totalChapterPage">
-            {{
-              `${idx === 0 ? 0 : idx * CHAPTER_PER_PAGE + 1} - ${
-                (idx + 1) * CHAPTER_PER_PAGE
-              }`
-            }}
-          </template>
-          <template v-else>
-            {{
-              `${
-                totalChapterPage === 1 ? 0 : idx * CHAPTER_PER_PAGE + 1
-              } - ${newestChapter}`
-            }}
-          </template>
+          <Icon name="bytesize:book" size="20" />
+          Chapters
+        </button>
+        <button
+          :class="`flex items-center gap-1 ${
+            currentTab === 'comments' ? 'text-cyan-400' : ''
+          }`"
+          @click="currentTab = 'comments'"
+        >
+          <Icon name="mingcute:comment-fill" size="20" />
+          Comments
         </button>
       </div>
-      <ul class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <NuxtLink
-          v-for="chapter in chaptersSection"
-          class="border rounded px-3 py-2 truncate hover:bg-emerald-50 duration-100"
-          :to="`/comic/${comic.id}/${chapter.id}`"
+      <div v-show="currentTab === 'chapters'">
+        <div
+          class="flex items-center gap-3 my-5 text-gray-800 font-semibold text-sm flex-wrap"
         >
-          <abbr :title="chapter.name" class="no-underline">
-            {{ chapter.name }}
-          </abbr>
-        </NuxtLink>
-      </ul>
+          <button
+            v-for="(_, idx) in new Array(totalChapterPage)"
+            :class="`px-2 py-0.5 rounded-full ${
+              idx === currentChapterPage
+                ? 'bg-cyan-100 text-cyan-400'
+                : 'bg-gray-100'
+            }`"
+            @click="onChangeChapterGroup(idx)"
+          >
+            <template v-if="idx + 1 < totalChapterPage">
+              {{
+                `${idx === 0 ? 0 : idx * CHAPTER_PER_PAGE + 1} - ${
+                  (idx + 1) * CHAPTER_PER_PAGE
+                }`
+              }}
+            </template>
+            <template v-else>
+              {{
+                `${
+                  totalChapterPage === 1 ? 0 : idx * CHAPTER_PER_PAGE + 1
+                } - ${newestChapter}`
+              }}
+            </template>
+          </button>
+        </div>
+        <ul class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <NuxtLink
+            v-for="chapter in chaptersSection"
+            class="border rounded px-3 py-2 truncate hover:bg-cyan-50 duration-100"
+            :to="`/comic/${comic.id}/${chapter.id}`"
+          >
+            <abbr :title="chapter.name" class="no-underline">
+              {{ chapter.name }}
+            </abbr>
+          </NuxtLink>
+        </ul>
+      </div>
+      <div v-show="currentTab === 'comments'">
+        <Comments :comments="comments" :is-end="isEnd" />
+        <div class="w-max mx-auto mt-4" v-show="!isEnd">
+          <Icon name="line-md:loading-loop" size="42" v-if="isFetching" />
+          <button
+            v-else
+            class="bg-cyan-100 text-cyan-400 font-medium rounded-full px-4 py-1.5"
+            @click="getComments"
+          >
+            Load more
+          </button>
+        </div>
+      </div>
     </div>
   </div>
   <!-- Download -->
@@ -350,7 +400,7 @@ useServerSeoMeta(
               v-for="(_, idx) in new Array(totalChapterPage)"
               :class="`px-2 py-1 border-b last:border-b-0 ${
                 idx === currentDownloadChapterPage
-                  ? 'text-emerald-500 font-medium'
+                  ? 'text-cyan-400 font-medium'
                   : ''
               }`"
               @click="onChangeChapterDownloadGroup(idx)"
@@ -381,7 +431,7 @@ useServerSeoMeta(
           :key="chapter.id"
           :class="`border rounded px-2 py-1 cursor-pointer duration-100 truncate ${
             downloadChapters.includes(chapter.id)
-              ? 'border-emerald-500 bg-emerald-500 text-white'
+              ? 'border-cyan-400 bg-cyan-400 text-white'
               : ''
           }`"
           @click="onAddDownloadChapter(chapter.id)"
@@ -394,13 +444,8 @@ useServerSeoMeta(
           Cancel
         </button>
         <button
-          :class="`text-white px-2.5 py-1.5 rounded flex items-center gap-1.5 ${
-            downloadChapters.length
-              ? 'border-emerald-500 bg-emerald-500'
-              : 'border-gray-500 bg-gray-500'
-          }`"
+          class="text-white px-2.5 py-1.5 rounded flex items-center gap-1.5 bg-cyan-400"
           @click="handleDownloadChapters"
-          :disabled="!downloadChapters.length"
         >
           Download
         </button>

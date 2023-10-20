@@ -91,7 +91,7 @@ watch([currentTab, route], async ([newTab, route]) => {
         v-for="route in topRoutes"
         :key="route.type"
         :class="`flex items-center gap-1 px-3 py-2 rounded cursor-pointer duration-150 select-none ${
-          route.type === currentTab ? 'bg-emerald-500 text-white' : ''
+          route.type === currentTab ? 'bg-cyan-400 text-white' : ''
         }`"
         @click="handleChangeTab(route.type)"
       >
@@ -106,7 +106,7 @@ watch([currentTab, route], async ([newTab, route]) => {
         v-for="item in filterValues"
         :class="`min-w-[60px] cursor-pointer text-center border px-3 py-1.5 rounded ${
           item.value === filterValue
-            ? 'border-emerald-500 text-emerald-500'
+            ? 'border-cyan-400 text-cyan-400'
             : ''
         }`"
         @click="handleFilter(item.value)"

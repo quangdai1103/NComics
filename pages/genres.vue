@@ -78,7 +78,7 @@ watch(route, async (route) => {
     <h2
       class="flex items-center gap-2 text-xl sm:text-2xl md:text-3xl font-bold mb-4 mt-4 md:mt-8"
     >
-      <Icon name="fa-solid:crown" size="36" class="text-emerald-500" />
+      <Icon name="fa-solid:crown" size="36" class="text-cyan-400" />
       Genres
     </h2>
     <Swiper
@@ -93,7 +93,7 @@ watch(route, async (route) => {
         v-for="genre in genres"
         :key="genre.id"
         :class="`swiper-slide-genre px-5 py-3 select-none cursor-pointer ${
-          genre.id === currentGenre ? 'bg-emerald-500 text-white' : ''
+          genre.id === currentGenre ? 'bg-cyan-400 text-white' : ''
         }`"
         @click="handleChangeGenre(genre.id)"
       >
