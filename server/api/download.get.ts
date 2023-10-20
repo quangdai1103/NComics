@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
 
   for (const { src } of images) {
     const originSrc = src.split('src=').at(-1);
-    const data: any = await $fetch(`/api/serve?src=${originSrc}`, {
+    const data: any = await $fetch(`https://proxy-snowy-theta.vercel.app/serve?src=${originSrc}`, {
       responseType: 'arrayBuffer',
     });
 
