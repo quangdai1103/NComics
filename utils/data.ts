@@ -34,7 +34,7 @@ export const topRoutes: TopRoute[] = [
 export const filterValues: { label: string; value: string }[] = [
   { label: 'All', value: 'all' },
   { label: 'Completed', value: 'completed' },
-  { label: 'Ongoing', value: 'ongoing' },
+  { label: 'Updating', value: 'updating' },
 ];
 
 type DynamicRoute = {

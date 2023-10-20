@@ -8,8 +8,10 @@ type HistoryComic = {
   id: string;
   title: string;
   thumbnail: string;
+  authors: string | string[];
   status: string;
   reading_at: number;
+  is_adult: boolean;
   last_reading: string;
   chapter_id: number;
 };
@@ -43,7 +45,7 @@ export const historyAddComic = (data: HistoryComic) => {
   const db = window.db;
   const trans = db.transaction('history', 'readwrite');
   const store = trans.objectStore('history');
-  store.put({ ...data, genres: [] });
+  store.put(data);
 };
 
 export const historyDeleteComic = (key: string) => {
