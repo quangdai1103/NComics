@@ -1,10 +1,10 @@
-# NComics
+# NextZ Comics
 
 Free comics website using Nuxt + Tailwind
 
 ## Official Link
 
-https://ncomics.vercel.app
+https://comics.nextzcinema.com
 
 ## Technology
 

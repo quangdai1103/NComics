@@ -1,0 +1,9 @@
+bác có thể đổi màu với tìm màu ở đây 
+https://tailwindcss.com/docs/customizing-colors
+
+còn đổi màu thì hiện tại e đang để là cyan-400
+bác muốn đổi màu khác thì đổi 2 ô trên như e là được
+
+
+Tại mấy cái đấy e k ghi là emerald mà em ghi mã màu #22d3ee
+Bác đổi như e là được
